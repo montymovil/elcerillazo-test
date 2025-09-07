@@ -1,0 +1,126 @@
+---
+import { siteConfig } from '../site.config';
+import ThemeToggle from './ThemeToggle.astro';
+import categoriesData from '../data/categories.json';
+---
+
+<header class="sticky top-0 z-50 glass border-b border-white/20">
+  <div class="mx-auto max-w-6xl px-4 py-4">
+    <div class="flex items-center justify-between">
+      <a href="/" class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-lg">C</span>
+        </div>
+        <span class="text-xl font-bold space-text-gradient">{siteConfig.title}</span>
+      </a>
+      
+      <nav class="hidden md:flex items-center space-x-6">
+        <!-- Enlaces del siteConfig, reemplazando Categorías con dropdown -->
+        {siteConfig.header.navLinks.map((link) => {
+          if (link.text === 'Categorías') {
+            return (
+              <div class="relative group">
+                <button class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors font-medium flex items-center gap-1">
+                  {link.text}
+                  <svg class="w-4 h-4 transform group-hover:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                
+                <!-- Dropdown menu -->
+                <div class="absolute top-full right-0 mt-2 w-64 glass rounded-lg shadow-lg border border-white/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div class="py-3">
+                    <a href="/categorias/" class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-white/10 transition-colors">
+                      📂 Ver todas las categorías
+                    </a>
+                    <hr class="border-white/20 my-2">
+                    {categoriesData.map(category => (
+                      <a 
+                        href={`/categorias/${category.slug}/`}
+                        class="block px-4 py-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-white/10 transition-colors"
+                      >
+                        <div class="flex items-center justify-between">
+                          <span class="font-medium">{category.name}</span>
+                          <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full">
+                            {category.count}
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          } else {
+            return (
+              <a 
+                href={link.href} 
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors font-medium"
+              >
+                {link.text}
+              </a>
+            );
+          }
+        })}
+        
+        <ThemeToggle />
+      </nav>
+      
+      <div class="md:hidden flex items-center gap-2">
+        <button 
+          id="mobile-menu-btn"
+          class="p-2"
+          aria-label="Toggle menu"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        <ThemeToggle />
+      </div>
+    </div>
+    
+    <!-- Menú móvil -->
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-white/20 pt-4">
+      <div class="space-y-2">
+        <!-- Enlaces originales en móvil (excepto Categorías) -->
+        {siteConfig.header.navLinks.filter(link => link.text !== 'Categorías').map((link) => (
+          <a 
+            href={link.href} 
+            class="block text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors font-medium py-2"
+          >
+            {link.text}
+          </a>
+        ))}
+        
+        <!-- Categorías en móvil -->
+        <div class="border-t border-white/20 pt-2 mt-2">
+          <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Categorías</p>
+          <a href="/categorias/" class="block text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors py-2 text-sm">
+            📂 Ver todas las categorías
+          </a>
+          {categoriesData.map(category => (
+            <a 
+              href={`/categorias/${category.slug}/`}
+              class="block text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors py-2"
+            >
+              {category.name} ({category.count})
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Toggle menú móvil
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileBtn?.addEventListener('click', () => {
+      mobileMenu?.classList.toggle('hidden');
+    });
+  });
+</script>

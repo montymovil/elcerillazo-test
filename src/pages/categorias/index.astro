@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import categoriesData from '../../data/categories.json';
+---
+
+<Layout title="Categorías - El Cerillazo">
+  <div class="mx-auto max-w-6xl px-4 py-12">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold space-text-gradient mb-4">Categorías</h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400">Explora los posts organizados por temas</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {categoriesData.map(category => (
+        <div class="glass rounded-xl p-6 hover-lift">
+          <h2 class="text-xl font-semibold mb-3">
+            <a href={'/categorias/' + category.slug + '/'} class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+              {category.name}
+            </a>
+          </h2>
+          <span class="bg-blue-500/20 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-sm">
+            {category.count} {category.count === 1 ? 'post' : 'posts'}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

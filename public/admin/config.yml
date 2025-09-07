@@ -1,0 +1,75 @@
+backend:
+  name: git-gateway
+  branch: main # Cambia por tu rama principal
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Posts del Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Fecha de Publicación", name: "pubDate", widget: "datetime" }
+      - { label: "Fecha de Modificación", name: "modDate", widget: "datetime", required: false }
+      - { label: "Descripción", name: "description", widget: "string", required: false }
+      - { label: "Imagen Destacada", name: "image", widget: "image", required: false }
+      - label: "Categorías"
+        name: "categories"
+        widget: "select"
+        multiple: true
+        options: ["cerillazos", "Inspiracion"]
+        required: false
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+      - { label: "Borrador", name: "draft", widget: "boolean", default: false }
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Título SEO", name: "title", widget: "string", required: false }
+          - { label: "Descripción SEO", name: "description", widget: "text", required: false }
+          - { label: "URL Canónica", name: "canonical", widget: "string", required: false }
+          - label: "Robots"
+            name: "robots"
+            widget: "object"
+            required: false
+            fields:
+              - { label: "Index", name: "index", widget: "boolean", default: true }
+              - { label: "Follow", name: "follow", widget: "boolean", default: true }
+              - { label: "No Image Index", name: "noimageindex", widget: "boolean", default: false }
+              - { label: "No Snippet", name: "nosnippet", widget: "boolean", default: false }
+              - { label: "Max Image Preview", name: "maxImagePreview", widget: "string", required: false }
+          - label: "Open Graph"
+            name: "og"
+            widget: "object"
+            required: false
+            fields:
+              - { label: "Título OG", name: "title", widget: "string", required: false }
+              - { label: "Descripción OG", name: "description", widget: "text", required: false }
+              - { label: "Imagen OG", name: "image", widget: "image", required: false }
+              - { label: "Tipo", name: "type", widget: "string", default: "article" }
+          - label: "Twitter"
+            name: "twitter"
+            widget: "object"
+            required: false
+            fields:
+              - { label: "Card Type", name: "card", widget: "string", default: "summary_large_image" }
+      - { label: "Contenido", name: "body", widget: "markdown" }
+
+  - name: "pages"
+    label: "Páginas"
+    files:
+      - label: "Sobre mí"
+        name: "about"
+        file: "src/pages/about.md"
+        fields:
+          - { label: "Título", name: "title", widget: "string" }
+          - { label: "Descripción", name: "description", widget: "string" }
+          - { label: "Contenido", name: "body", widget: "markdown" }

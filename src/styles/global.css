@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .space-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .space-text-gradient {
+    @apply bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent;
+  }
+  
+  .prose-space {
+    @apply prose prose-lg max-w-none dark:prose-invert;
+  }
+  
+  .prose-space h1,
+  .prose-space h2,
+  .prose-space h3 {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+  
+  .prose-space p {
+    @apply text-gray-700 dark:text-gray-300 leading-relaxed;
+  }
+  
+  .prose-space a {
+    @apply text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 no-underline transition-colors;
+  }
+  
+  .prose-space img {
+    @apply rounded-xl shadow-2xl;
+  }
+  
+  .prose-space blockquote {
+    @apply border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 pl-6 py-4 rounded-r-lg;
+  }
+  
+  .prose-space code {
+    @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-sm;
+  }
+  
+  .prose-space pre {
+    @apply bg-gray-900 p-6 rounded-xl overflow-x-auto;
+  }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}

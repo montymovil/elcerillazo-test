@@ -1,0 +1,59 @@
+---
+// Solo permitir en desarrollo
+if (import.meta.env.PROD) {
+  return Astro.redirect('/');
+}
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - El Cerillazo</title>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</head>
+<body>
+  <script>
+    // Configuración para desarrollo local
+    CMS.init({
+      config: {
+        backend: {
+          name: 'proxy',
+          proxy_url: 'http://localhost:8081/api/v1',
+          branch: 'main'
+        },
+        load_config_file: false,
+        media_folder: "public/images/uploads",
+        public_folder: "/images/uploads",
+        collections: [
+          {
+            name: "blog",
+            label: "Posts del Blog",
+            folder: "src/content/blog",
+            create: true,
+            slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+            fields: [
+              { label: "Título", name: "title", widget: "string" },
+              { label: "Fecha de Publicación", name: "pubDate", widget: "datetime" },
+              { label: "Descripción", name: "description", widget: "string", required: false },
+              { label: "Imagen Destacada", name: "image", widget: "image", required: false },
+              {
+                label: "Categorías",
+                name: "categories",
+                widget: "select",
+                multiple: true,
+                options: ["cerillazos", "Inspiracion"],
+                required: false
+              },
+              { label: "Tags", name: "tags", widget: "list", required: false },
+              { label: "Borrador", name: "draft", widget: "boolean", default: false },
+              { label: "Contenido", name: "body", widget: "markdown" }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
+</body>
+</html>
