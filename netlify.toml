@@ -1,0 +1,29 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Variables de entorno para testing
+[context.production.environment]
+  EDITOR_PASSWORD = "test123"
+
+# Headers básicos para seguridad
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+
+# Sin caché para el editor
+[[headers]]
+  for = "/editor"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Redirects básicos
+[[redirects]]
+  from = "/feed"
+  to = "/feed.xml"
+  status = 301
